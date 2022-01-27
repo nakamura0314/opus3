@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+{% for post in post_list %}
+<!--card-->
+<!--mbとはマージンボトムと言い、上下の間隔を空けてくれる-->
+<div class="card mb-3">
+  <h2 class="card-header bg-dark text-white">{{post.title}}</h2>
+  <div class="card-body">
+    <p>{{ post.created_at }},{{ post.category }}</p>
+    <!--続きを読むのリンク先も詳細ページに飛ぶようにする-->
+    <a href="{% url 'blog:detail' post.pk %}" class="btn btn-dark">続きを読む</a>
+  </div>
+</div>
+{% endfor %}
+
+{% include 'blog/page.html' %}
+
+{% endblock %}

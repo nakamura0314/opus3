@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<!--action=""でその開いたページにそのままデータを送信する-->
+<form action="" method="POST">
+  <!--今回は必要ないが、特殊なことがあった際にここを使う、複数関連のエラーがよく入る-->
+  {{ form.non_field_errors }}
+  <!--form内の各入力欄をfor文で取り出せる-->
+  {% for field in form %}
+  <div class="form-group">
+    <!--field.label_tagにtextやnameが入る-->
+    <label for="{{ field.id_for_label }}">{{ filed.label_tag }}</label>
+    {{ field }}
+    <!--エラー内容も表示される-->
+    {{ field.errors }}
+  </div>
+  {% endfor %}
+  <!--POSTの時はこれを必ず入れる、入れないとエラー出る-->
+  {% csrf_token %}
+  <button type="submit" class="btn btn-dark">送信</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<!--card-->
+<!--mbとはマージンボトムと言い、上下の間隔を空けてくれる-->
+<div class="card mb-3">
+  <h2 class="card-header bg-dark text-white">{{post.title}}</h2>
+  <div class="card-body">
+    <p>{{ post.created_at }},{{ post.category }}</p>
+    <!--
+      本文表示するようにする
+      post(model).text(本文の入れ物)
+      linebreaksbr:複数行を正しく表示させる
+      改行コードをbrタグに変換して、正しく改行してくれる
+      urlize:
+      URLのような文字列があった場合に、それにアンカータグを付けてくれる
+    -->
+    {{ post.text | linebreaksbr | urlize }}
+  </div>
+</div>
+
+<!--その記事に紐づいたコメントを全て取得する
+post.categoryが今までのもの、これはmodelsのPostのcategoryにアクセスしている
+コメントに紐づいたら、コメント名と本文を表示させているだけ-->
+{% for comment in post.comment_set.all %}
+<p>
+  {{ comment.name }}<br>
+  {{ comment.text | linebreaksbr }}
+</p>
+{% endfor %}
+
+
+<a class="btn btn-dark" href="{% url 'blog:comment' post.pk %}">コメント投稿ページへ</a>
+{% endblock %}
